@@ -366,7 +366,8 @@ screen main_menu():
         ground "gui/main_menu.png"
          
         hotspot(542, 216, 196, 60) action Start()
-        
+        hotspot(512, 288, 270, 65) action ShowMenu("load")
+		
     
 
    
