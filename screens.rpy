@@ -368,9 +368,9 @@ screen main_menu():
         hotspot(542, 216, 196, 60) action Start()
         hotspot(512, 288, 270, 65) action ShowMenu("load")
 		hotspot(495, 355, 298, 75) action ShowMenu("preferences")
-		hotspot(536, 443, 213, 60) action ShowMenu("about")
-		hotspot(530, 521, 227, 60) action ShowMenu("help")
-		hotspot(1180, 660, 90, 35) action Quit(confirm=False)
+		hotspot(536, 438, 213, 65) action ShowMenu("about")
+		hotspot(530, 521, 233, 60) action ShowMenu("help")
+		hotspot(1180, 678, 90, 35) action Quit(confirm=False)
 
    
 
