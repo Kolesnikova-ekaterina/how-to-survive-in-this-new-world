@@ -1,15 +1,3 @@
-﻿# Вы можете расположить сценарий своей игры в этом файле.
-
-# Определение персонажей игры.
-define e = Character('Эйлин', color="#c8ffc8")
-
-# Вместо использования оператора image можете просто
-# складывать все ваши файлы изображений в папку images.
-# Например, сцену bg room можно вызвать файлом "bg room.png",
-# а eileen happy — "eileen happy.webp", и тогда они появятся в игре.
-
-# Игра начинается здесь:
-
 init python:
 
     def piece_dragged(drags, drop):
@@ -80,11 +68,6 @@ label puzzle:
     jump win
 
 label start:
-
-    scene bg room
-
-    show eileen happy
-    "Huilo""Darov"
     scene expression "_20130709_192009.jpg" #Менять фон для пазла
 
     $ grid_width = 3    # Это и ниже меняет сложность => увеличевает количество пазла, но повышает время ожидания
@@ -94,13 +77,8 @@ label start:
     $ puzzle_piece_size = 450
     $ grip_size = 75
     $ active_area_size = puzzle_piece_size - (grip_size * 2)
-    $ chosen_img = "puzzle.jpg "#Здесь менять картинку для пазла
-
-
-
-
-    #####################################################################################################
-    #
+    $ chosen_img = "puzzle.jpg "  #Здесь менять картинку для пазла
+    
     python:
 
         img_width, img_height = renpy.image_size(chosen_img)
@@ -211,4 +189,4 @@ jump puzzle
 label win:
     scene black
     show expression img_to_play at Position(xalign=0.5,yalign=0.5) with dissolve
-    "Конец"
+    "Ты собрал ее"
