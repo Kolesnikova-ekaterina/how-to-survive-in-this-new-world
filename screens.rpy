@@ -762,13 +762,14 @@ screen preferences():
             #left_bar "gui/slider/horizontal_idle_bar.png"
         #    right_bar "gui/slider/horizontal_hover_bar.png"
         #    value Preference("text speed")
-        ##    hotbar(798,235,307,43) value Preference("text speed")
+            hotbar(798,235,307,43) value Preference("text speed")
 
                     ##label _("Скорость авточтения")
-
+         #скорость авточтения
+            hotbar (801,348,310,46) value Preference("auto-forward time")
                     ##bar value Preference("auto-forward time")
         if config.has_music:
-            hotbar (794,461,310,46) value Preference("music volume") style "pref_slider"
+            hotbar (794,461,310,46) value Preference("music volume") #style "pref_slider"
 
         if config.has_music or config.has_sound or config.has_voice:
             null height gui.pref_spacing
