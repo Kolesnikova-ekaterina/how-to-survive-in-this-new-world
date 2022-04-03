@@ -357,23 +357,22 @@ screen main_menu():
     ## Этот тег гарантирует, что любой другой экран с тем же тегом будет
     ## заменять этот.
     tag menu
-
+    
     imagemap:
-        idle "gui/ButtonForMainMenuOff.png"
-
-        hover "gui/ButtonForMainMenu.png"
-
+        idle "gui/ButtonOff1.png"
+    
+        hover "gui/ButtonOn1.png"
+           
         ground "gui/main_menu.png"
+         
+        hotspot(542, 216, 196, 60) action Start()
+        hotspot(512, 288, 270, 65) action ShowMenu("load")
+		hotspot(495, 355, 298, 75) action ShowMenu("preferences")
+		hotspot(536, 438, 213, 65) action ShowMenu("about")
+		hotspot(530, 521, 233, 60) action ShowMenu("help")
+		hotspot(1180, 678, 90, 35) action Quit(confirm=False)
 
-        hotspot(552, 193, 196, 44) action Start()
-        hotspot(500, 260, 291, 58) action ShowMenu("history")
-        hotspot(515, 329, 278, 59) action ShowMenu("load")
-        hotspot(495, 395, 308, 73) action ShowMenu("preferences")
-        hotspot(530, 470, 228, 70) action ShowMenu("about")
-        hotspot(524, 548, 244, 63) action ShowMenu("help")
-        hotspot(1180, 678, 90, 35) action Quit(confirm=False)
-
-
+   
 
 
 style main_menu_frame is empty
@@ -439,7 +438,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
                     viewport:
                         yinitial yinitial
-                        ##scrollbars "vertical"
+                        scrollbars "vertical"
                         mousewheel True
                         draggable True
                         pagekeys True
@@ -455,7 +454,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
                         cols 1
                         yinitial yinitial
 
-                        ##scrollbars "vertical"
+                        scrollbars "vertical"
                         mousewheel True
                         draggable True
                         pagekeys True
@@ -546,25 +545,20 @@ screen about():
 
     ## Этот оператор включает игровое меню внутрь этого экрана. Дочерний vbox
     ## включён в порт просмотра внутри экрана игрового меню.
-    #use game_menu(_("Об игре"), scroll="viewport"):
+    use game_menu(_("Об игре"), scroll="viewport"):
 
-        #style_prefix "about"
-    imagemap:
-        idle "images/ButtonOfSettings/ButtonsOff.png"
-        hover "images/ButtonOfSettings/ButtonsOn.png"
-        ground "gui/AboutGame.png"
-        hotspot(31,674,156,38) action ShowMenu("main_menu")
-    vbox:
-        xalign 0.5
-        yalign 0.45
-        label "[config.name!t]"
-            #text _("Версия [config.version!t]\n")
+        style_prefix "about"
+
+        vbox:
+
+            label "[config.name!t]"
+            text _("Версия [config.version!t]\n")
 
             ## gui.about обычно установлено в options.rpy.
-        if gui.about:
-            text "[gui.about!t]\n"
+            if gui.about:
+                text "[gui.about!t]\n"
 
-        #text _("Сделано с помощью {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]\n")
+            text _("Как выжить в этом новом мире - игра в жанре визуальная новелла, рассказывающая историю об обычном школьнике, попавшем в странный, незнакомый мир, полный тайн и загадок. Герою предстоит узнать историю этого места и столкнуться с головоломками по пути домой.\n")
 
 
 style about_label is gui_label
@@ -581,17 +575,19 @@ style about_label_text:
 ## как они почти одинаковые, оба реализованы по правилам третьего экрана —
 ## file_slots.
 ##
-## https://www.renpy.org/doc/html/screen_special.html#save
+## https://www.renpy.org/doc/html/screen_special.html#save 
 
 screen save():
 
     tag menu
+
     use file_slots(_("Сохранить"))
 
 
 screen load():
 
     tag menu
+
     use file_slots(_("Загрузить"))
 
 
@@ -714,68 +710,88 @@ screen preferences():
 
     tag menu
 
-    imagemap:
-        idle "images/ButtonOfSettings/ButtonsOff.png"
+    use game_menu(_("Настройки"), scroll="viewport"):
 
-        hover "images/ButtonOfSettings/ButtonsOn.png"
+        vbox:
 
-        selected_idle "images/ButtonOfSettings/ButtonsOff.png"
-        selected_hover "images/ButtonOfSettings/ButtonsOn.png"
-        insensitive "images/ButtonOfSettings/ButtonsOn.png"
+            hbox:
+                box_wrap True
 
-        ground "images/ButtonOfSettings/fon_settings.png"
+                if renpy.variant("pc") or renpy.variant("web"):
 
-        if renpy.variant("pc") or renpy.variant("web"):
-            ##кнопки "режим экрана"
-            hotspot(211, 238, 129, 30) action Preference("display", "window")
-            hotspot(211, 290, 115, 27) action Preference("display", "fullscreen")
+                    vbox:
+                        style_prefix "radio"
+                        label _("Режим экрана")
+                        textbutton _("Оконный") action Preference("display", "window")
+                        textbutton _("Полный") action Preference("display", "fullscreen")
 
-            ##кнопки "сторона отката"
-            hotspot(211,415,159,33) action Preference("rollback side", "disable")
-            hotspot(209,461, 91, 31) action Preference("rollback side", "left")
-            hotspot(210,514, 108, 41) action Preference("rollback side", "right")
+                vbox:
+                    style_prefix "radio"
+                    label _("Сторона отката")
+                    textbutton _("Отключено") action Preference("rollback side", "disable")
+                    textbutton _("Левая") action Preference("rollback side", "left")
+                    textbutton _("Правая") action Preference("rollback side", "right")
 
-            ##кнопки "пропуск"
-            hotspot(527,285, 176, 35) action Preference("skip", "toggle")
-            hotspot(524, 337, 226, 42) action Preference("after choices", "toggle")
-            hotspot(525,394, 243, 41) action InvertSelected(Preference("transitions", "toggle"))
+                vbox:
+                    style_prefix "check"
+                    label _("Пропуск")
+                    textbutton _("Всего текста") action Preference("skip", "toggle")
+                    textbutton _("После выборов") action Preference("after choices", "toggle")
+                    textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle"))
 
-            ## кнопка "вернуться"
-            hotspot(31,674,156,38) action ShowMenu("main_menu")
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
 
             null height (4 * gui.pref_spacing)
 
-            ##hbox:
-                ##style_prefix "slider"
-                ##box_wrap True
+            hbox:
+                style_prefix "slider"
+                box_wrap True
 
-                ##vbox:
+                vbox:
 
-                    ##label _("Скорость текста")
-        ##    xpos 385
-        ##    ypos 353
-        ##    maximum (300, 2)
-        ##    thumb "gui/overlay/bar.png"
-        ##  thumb_offset 16
-            #left_bar "gui/slider/horizontal_idle_bar.png"
-        #    right_bar "gui/slider/horizontal_hover_bar.png"
-        #    value Preference("text speed")
-        ##    hotbar(798,235,307,43) value Preference("text speed")
+                    label _("Скорость текста")
 
-                    ##label _("Скорость авточтения")
+                    bar value Preference("text speed")
 
-                    ##bar value Preference("auto-forward time")
-        if config.has_music:
-            hotbar (794,461,310,46) value Preference("music volume") style "pref_slider"
+                    label _("Скорость авточтения")
 
-        if config.has_music or config.has_sound or config.has_voice:
-            null height gui.pref_spacing
+                    bar value Preference("auto-forward time")
 
-            hotspot(801,511,160,41):
-                action Preference("all mute", "toggle")
-                #style "mute_all_button"
+                vbox:
+
+                    if config.has_music:
+                        label _("Громкость музыки")
+
+                        hbox:
+                            bar value Preference("music volume")
+
+                    if config.has_sound:
+
+                        label _("Громкость звуков")
+
+                        hbox:
+                            bar value Preference("sound volume")
+
+                            if config.sample_sound:
+                                textbutton _("Тест") action Play("sound", config.sample_sound)
+
+
+                    if config.has_voice:
+                        label _("Громкость голоса")
+
+                        hbox:
+                            bar value Preference("voice volume")
+
+                            if config.sample_voice:
+                                textbutton _("Тест") action Play("voice", config.sample_voice)
+
+                    if config.has_music or config.has_sound or config.has_voice:
+                        null height gui.pref_spacing
+
+                        textbutton _("Без звука"):
+                            action Preference("all mute", "toggle")
+                            style "mute_all_button"
 
 
 style pref_label is gui_label
