@@ -23,17 +23,17 @@ init python:
 ## Цвета текста в интерфейсе.
 
 ## Акцентный цвет используется в заголовках и подчёркнутых текстах.
-define gui.accent_color = u'#99ccff'
+define gui.accent_color = u'#964b00'
 
 ## Цвет, используемый в текстовой кнопке, когда она не выбрана и не наведена.
-define gui.idle_color = u'#888888'
+define gui.idle_color = u'#ffffff'
 
 ## Small_color используется в маленьком тексте, который должен быть ярче/темнее,
 ## для того, чтобы выделяться.
 define gui.idle_small_color = u'#aaaaaa'
 
 ## Цвет, используемых в кнопках и панелях, когда они наведены.
-define gui.hover_color = u'#c1e0ff'
+define gui.hover_color = u'#964b00'
 
 ## Цвет, используемый текстовой кнопкой, когда она выбрана, но не наведена.
 ## Кнопка может быть выбрана, если это текущий экран или текущее значение
@@ -56,13 +56,13 @@ define gui.interface_text_color = u'#ffffff'
 ## Шрифты и их размеры #########################################################
 
 ## Шрифт, используемый внутриигровым текстом.
-define gui.text_font = "DejaVuSans.ttf"
+define gui.text_font = "font/Hyatheus.otf"
 
 ## Шрифт, используемый именами персонажей.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.name_text_font = "font/Boncegro FF 4F.otf"
 
 ## Шрифт, используемый текстом вне игры.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "font/NeutralFace.otf"
 
 ## Размер нормального текста диалога.
 define gui.text_size = 22
@@ -74,7 +74,8 @@ define gui.name_text_size = 30
 define gui.interface_text_size = 22
 
 ## Размер заголовков в пользовательском интерфейсе.
-define gui.label_text_size = 24
+define gui.label_text_size = 25
+define gui.label_text_font = "font/Boncegro FF 4F.otf"
 
 ## Размер текста на экране уведомлений.
 define gui.notify_text_size = 16
@@ -160,15 +161,15 @@ define gui.button_borders = Borders(4, 4, 4, 4)
 define gui.button_tile = False
 
 ## Шрифт, используемый кнопкой.
-define gui.button_text_font = gui.interface_text_font
+define gui.button_text_font = "font/Boncegro FF 4F.otf"
 
 ## Размер текста, используемый кнопкой.
-define gui.button_text_size = gui.interface_text_size
+define gui.button_text_size = 30
 
 ## Цвет текста в кнопке в различных состояниях.
 define gui.button_text_idle_color = gui.idle_color
-define gui.button_text_hover_color = gui.hover_color
-define gui.button_text_selected_color = gui.selected_color
+define gui.button_text_hover_color = '#964b00'
+define gui.button_text_selected_color = '#964b00'
 define gui.button_text_insensitive_color = gui.insensitive_color
 
 ## Горизонтальное выравнивание текста в кнопке. (0.0 — лево, 0.5 — по центру,
@@ -191,9 +192,9 @@ define gui.confirm_button_text_xalign = 0.3
 define gui.page_button_borders = Borders(10, 4, 10, 4)
 
 define gui.quick_button_borders = Borders(10, 4, 10, 0)
-define gui.quick_button_text_size = 14
+define gui.quick_button_text_size = 22
 define gui.quick_button_text_idle_color = gui.idle_small_color
-define gui.quick_button_text_selected_color = gui.accent_color
+define gui.quick_button_text_selected_color = '#964b00'
 
 ## Вы также можете добавить собственные настройки, добавляя правильно
 ## именованные переменные. Например, вы можете раскомментировать следующую
@@ -210,11 +211,11 @@ define gui.choice_button_width = 790
 define gui.choice_button_height = None
 define gui.choice_button_tile = False
 define gui.choice_button_borders = Borders(100, 5, 100, 5)
-define gui.choice_button_text_font = gui.text_font
+define gui.choice_button_text_font = "font/Boncegro FF 4F.otf"
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
 define gui.choice_button_text_idle_color = "#cccccc"
-define gui.choice_button_text_hover_color = "#ffffff"
+define gui.choice_button_text_hover_color = "#964b00"
 define gui.choice_button_text_insensitive_color = "#444444"
 
 
@@ -228,11 +229,11 @@ define gui.choice_button_text_insensitive_color = "#444444"
 define gui.slot_button_width = 276
 define gui.slot_button_height = 206
 define gui.slot_button_borders = Borders(10, 10, 10, 10)
-define gui.slot_button_text_size = 14
+define gui.slot_button_text_size = 20
 define gui.slot_button_text_xalign = 0.5
-define gui.slot_button_text_idle_color = gui.idle_small_color
-define gui.slot_button_text_selected_idle_color = gui.selected_color
-define gui.slot_button_text_selected_hover_color = gui.hover_color
+define gui.slot_button_text_idle_color = "#ffffff"
+define gui.slot_button_text_selected_idle_color = '#964b00'
+define gui.slot_button_text_selected_hover_color = '#964b00'
 
 ## Ширина и высота миниатюры, используемой слотом сохранения.
 define config.thumbnail_width = 256
