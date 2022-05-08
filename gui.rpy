@@ -241,7 +241,7 @@ define config.thumbnail_height = 144
 
 ## Количество колонок и рядов в таблице слотов.
 define gui.file_slot_cols = 3
-define gui.file_slot_rows = 2
+define gui.file_slot_rows = 1
 
 
 ## Позиционирование и Интервалы ################################################
@@ -275,7 +275,7 @@ define gui.pref_button_spacing = 0
 define gui.page_spacing = 0
 
 ## Интервал между слотами.
-define gui.slot_spacing = 10
+define gui.slot_spacing = 40
 
 ## Позиция текста главного меню.
 define gui.main_menu_text_xalign = 1.0
