@@ -556,6 +556,7 @@ screen about():
         ground "gui/AboutGame.png"
         hotspot(31,674,156,38)
            action Return()##action ShowMenu("main_menu")
+           hotspot(25,627,212,43) action ShowMenu("main_menu")
     vbox:
         xalign 0.5
         yalign 0.45
@@ -608,6 +609,7 @@ screen file_slots(title):
         ground "gui/загрузить.png"
         hotspot(31,674,156,38):
             action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
    ## use game_menu(title):
 
         fixed:
@@ -868,8 +870,18 @@ screen history():
     ## Избегайте предсказывания этого экрана, так как он может быть очень
     ## массивным.
     predict False
-
-    use game_menu(_("История"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
+    imagemap:
+        idle "images/ButtonOfSettings/ButtonsOff.png"
+        hover "images/ButtonOfSettings/ButtonsOn.png"
+        selected_idle "gui/button_helpOn.png"
+        selected_hover "gui/button_helpOn.png"
+        ground "gui/история.png"
+        hotspot(31,674,156,38):
+            action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
+    #use game_menu(imagemap,scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
+        #scroll="viewport"
+    ##use game_menu(_("История"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
 
         style_prefix "history"
 
@@ -968,19 +980,15 @@ screen help():
             action Return()
     ##use game_menu(_("Помощь"), scroll="viewport"):
 
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
         style_prefix "help"
+        hotspot(191, 130, 196, 49) action SetScreenVariable("device", "keyboard")
+        hotspot(882,137,117,41) action SetScreenVariable("device", "mouse")
 
+        if GamepadExists():
+            textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
         vbox:
             spacing 15
-
-            hbox:
-
-                hotspot(191, 130, 196, 49) action SetScreenVariable("device", "keyboard")
-                hotspot(671,137,117,41) action SetScreenVariable("device", "mouse")
-
-
-                if GamepadExists():
-                    textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
 
             if device == "keyboard":
                 use keyboard_help
@@ -988,7 +996,8 @@ screen help():
                 use mouse_help
             elif device == "gamepad":
                 use gamepad_help
-
+            xalign 0.38
+            yalign 0.47
 
 screen keyboard_help():
 
