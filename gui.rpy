@@ -241,7 +241,7 @@ define config.thumbnail_height = 144
 
 ## Количество колонок и рядов в таблице слотов.
 define gui.file_slot_cols = 3
-define gui.file_slot_rows = 2
+define gui.file_slot_rows = 1
 
 
 ## Позиционирование и Интервалы ################################################

@@ -553,7 +553,9 @@ screen about():
         idle "images/ButtonOfSettings/ButtonsOff.png"
         hover "images/ButtonOfSettings/ButtonsOn.png"
         ground "gui/AboutGame.png"
-        hotspot(31,674,156,38) action ShowMenu("main_menu")
+        hotspot(31,674,156,38):
+            action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
     vbox:
         xalign 0.5
         yalign 0.45
@@ -599,8 +601,17 @@ screen file_slots(title):
 
     default page_name_value = FilePageNameInputValue(pattern=_("{} страница"), auto=_("Автосохранения"), quick=_("Быстрые сохранения"))
 
-    use game_menu(title):
-
+    ##use game_menu(title):
+    imagemap:
+        idle "images/ButtonOfSettings/ButtonsOff.png"
+        hover "images/ButtonOfSettings/ButtonsOn.png"
+        #selected_idle "images/ButtonOfSettings/ButtonsOn.png"
+        #selected_hover "images/ButtonOfSettings/ButtonsOn.png"
+        ground "gui/загрузить.png"
+        hotspot(31,674,156,38):
+            action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
+    ##use game_menu(title):
         fixed:
 
             ## Это гарантирует, что ввод будет принимать enter перед остальными
@@ -719,7 +730,7 @@ screen preferences():
 
         hover "images/ButtonOfSettings/ButtonsOn.png"
 
-        selected_idle "images/ButtonOfSettings/ButtonsOff.png"
+        selected_idle "images/ButtonOfSettings/ButtonsOn.png"
         selected_hover "images/ButtonOfSettings/ButtonsOn.png"
         insensitive "images/ButtonOfSettings/ButtonsOn.png"
 
@@ -741,42 +752,39 @@ screen preferences():
             hotspot(525,394, 243, 41) action InvertSelected(Preference("transitions", "toggle"))
 
             ## кнопка "вернуться"
-            hotspot(31,674,156,38) action ShowMenu("main_menu")
+            hotspot(31,674,156,38):
+                action Return()
+            hotspot(25,627,212,43) action ShowMenu("main_menu")
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
 
             null height (4 * gui.pref_spacing)
 
-            ##hbox:
-                ##style_prefix "slider"
+            hbox:
+                style_prefix "slider"
                 ##box_wrap True
+                xalign 2.11
+                yalign 0.43
+                vbox:
+                    bar value Preference("text speed")
+                    label _(" ")
+                    label _(" ")
+                    bar value Preference("auto-forward time")
 
-                ##vbox:
+                vbox:
+                    if config.has_music:
 
-                    ##label _("Скорость текста")
-        ##    xpos 385
-        ##    ypos 353
-        ##    maximum (300, 2)
-        ##    thumb "gui/overlay/bar.png"
-        ##  thumb_offset 16
-            #left_bar "gui/slider/horizontal_idle_bar.png"
-        #    right_bar "gui/slider/horizontal_hover_bar.png"
-        #    value Preference("text speed")
-            hotbar(798,235,307,43) value Preference("text speed")
-
-                    ##label _("Скорость авточтения")
-         #скорость авточтения
-            hotbar (801,348,310,46) value Preference("auto-forward time")
-                    ##bar value Preference("auto-forward time")
-        if config.has_music:
-            hotbar (794,461,310,46) value Preference("music volume") #style "pref_slider"
+                        yalign 2.11
+                        hbox:
+                            xalign -2.98
+                            bar value Preference("music volume")
 
         if config.has_music or config.has_sound or config.has_voice:
             null height gui.pref_spacing
 
             hotspot(801,511,160,41):
                 action Preference("all mute", "toggle")
-                #style "mute_all_button"
+
 
 
 style pref_label is gui_label
@@ -865,8 +873,16 @@ screen history():
     ## массивным.
     predict False
 
-    use game_menu(_("История"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
-
+    ##use game_menu(_("История"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
+    imagemap:
+        idle "images/ButtonOfSettings/ButtonsOff.png"
+        hover "images/ButtonOfSettings/ButtonsOn.png"
+        selected_idle "gui/button_helpOn.png"
+        selected_hover "gui/button_helpOn.png"
+        ground "gui/история.png"
+        hotspot(31,674,156,38):
+            action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
         style_prefix "history"
 
         for h in _history_list:
@@ -955,20 +971,23 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("Помощь"), scroll="viewport"):
-
+    imagemap:
+        idle "gui/button_help.png"
+        hover "gui/button_helpOn.png"
+        selected_idle "gui/button_helpOn.png"
+        selected_hover "gui/button_helpOn.png"
+        ground "gui/imageHelp.png"
+        hotspot(31,674,156,38):
+            action Return()
+        hotspot(25,627,212,43) action ShowMenu("main_menu")
         style_prefix "help"
+        hotspot(191, 130, 196, 49) action SetScreenVariable("device", "keyboard")
+        hotspot(882,137,117,41) action SetScreenVariable("device", "mouse")
 
+        if GamepadExists():
+            textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
         vbox:
             spacing 15
-
-            hbox:
-
-                textbutton _("Клавиатура") action SetScreenVariable("device", "keyboard")
-                textbutton _("Мышь") action SetScreenVariable("device", "mouse")
-
-                if GamepadExists():
-                    textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
 
             if device == "keyboard":
                 use keyboard_help
@@ -976,6 +995,8 @@ screen help():
                 use mouse_help
             elif device == "gamepad":
                 use gamepad_help
+            xalign 0.38
+            yalign 0.47
 
 
 screen keyboard_help():
