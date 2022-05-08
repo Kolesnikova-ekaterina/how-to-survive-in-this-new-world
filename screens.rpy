@@ -254,7 +254,7 @@ screen quick_menu():
             yalign 1.0
 
             textbutton _("Назад") action Rollback()
-            textbutton _("История") action ShowMenu('history')
+            ##textbutton _("История") action ShowMenu('history')
             textbutton _("Пропуск") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Авто") action Preference("auto-forward", "toggle")
             textbutton _("Сохранить") action ShowMenu('save')
@@ -470,6 +470,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     use navigation
 
+
     textbutton _("Вернуться"):
         style "return_button"
 
@@ -553,7 +554,8 @@ screen about():
         idle "images/ButtonOfSettings/ButtonsOff.png"
         hover "images/ButtonOfSettings/ButtonsOn.png"
         ground "gui/AboutGame.png"
-        hotspot(31,674,156,38) action ShowMenu("main_menu")
+        hotspot(31,674,156,38)
+           action Return()##action ShowMenu("main_menu")
     vbox:
         xalign 0.5
         yalign 0.45
@@ -598,8 +600,15 @@ screen load():
 screen file_slots(title):
 
     default page_name_value = FilePageNameInputValue(pattern=_("{} страница"), auto=_("Автосохранения"), quick=_("Быстрые сохранения"))
-
-    use game_menu(title):
+    imagemap:
+        idle "images/ButtonOfSettings/ButtonsOff.png"
+        hover "images/ButtonOfSettings/ButtonsOn.png"
+        #selected_idle "images/ButtonOfSettings/ButtonsOn.png"
+        #selected_hover "images/ButtonOfSettings/ButtonsOn.png"
+        ground "gui/загрузить.png"
+        hotspot(31,674,156,38):
+            action Return()
+   ## use game_menu(title):
 
         fixed:
 
@@ -719,7 +728,7 @@ screen preferences():
 
         hover "images/ButtonOfSettings/ButtonsOn.png"
 
-        selected_idle "images/ButtonOfSettings/ButtonsOff.png"
+        selected_idle "images/ButtonOfSettings/ButtonsOn.png"
         selected_hover "images/ButtonOfSettings/ButtonsOn.png"
         insensitive "images/ButtonOfSettings/ButtonsOn.png"
 
@@ -741,43 +750,38 @@ screen preferences():
             hotspot(525,394, 243, 41) action InvertSelected(Preference("transitions", "toggle"))
 
             ## кнопка "вернуться"
-            hotspot(31,674,156,38) action ShowMenu("main_menu")
+            hotspot(31,674,156,38):
+                action Return()## action ShowMenu("main_menu")
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
 
+
             null height (4 * gui.pref_spacing)
-
-            ##hbox:
-                ##style_prefix "slider"
+            hbox:
+                style_prefix "slider"
                 ##box_wrap True
+                xalign 2.11
+                yalign 0.43
+                vbox:
+                    bar value Preference("text speed")
+                    label _(" ")
+                    label _(" ")
+                    bar value Preference("auto-forward time")
 
-                ##vbox:
+                vbox:
+                    if config.has_music:
 
-                    ##label _("Скорость текста")
-        ##    xpos 385
-        ##    ypos 353
-        ##    maximum (300, 2)
-        ##    thumb "gui/overlay/bar.png"
-        ##  thumb_offset 16
-            #left_bar "gui/slider/horizontal_idle_bar.png"
-        #    right_bar "gui/slider/horizontal_hover_bar.png"
-        #    value Preference("text speed")
-            hotbar(798,235,307,43) value Preference("text speed")
-
-                    ##label _("Скорость авточтения")
-         #скорость авточтения
-            hotbar (801,348,310,46) value Preference("auto-forward time")
-                    ##bar value Preference("auto-forward time")
-        if config.has_music:
-            hotbar (794,461,310,46) value Preference("music volume") #style "pref_slider"
+                        yalign 2.11
+                        hbox:
+                            xalign -2.98
+                            bar value Preference("music volume")
 
         if config.has_music or config.has_sound or config.has_voice:
             null height gui.pref_spacing
 
             hotspot(801,511,160,41):
                 action Preference("all mute", "toggle")
-                #style "mute_all_button"
-
+            
 
 style pref_label is gui_label
 style pref_label_text is gui_label_text
@@ -954,8 +958,15 @@ screen help():
     tag menu
 
     default device = "keyboard"
-
-    use game_menu(_("Помощь"), scroll="viewport"):
+    imagemap:
+        idle "gui/button_help.png"
+        hover "gui/button_helpOn.png"
+        selected_idle "gui/button_helpOn.png"
+        selected_hover "gui/button_helpOn.png"
+        ground "gui/imageHelp.png"
+        hotspot(33,665,170,38):
+            action Return()
+    ##use game_menu(_("Помощь"), scroll="viewport"):
 
         style_prefix "help"
 
@@ -964,8 +975,9 @@ screen help():
 
             hbox:
 
-                textbutton _("Клавиатура") action SetScreenVariable("device", "keyboard")
-                textbutton _("Мышь") action SetScreenVariable("device", "mouse")
+                hotspot(191, 130, 196, 49) action SetScreenVariable("device", "keyboard")
+                hotspot(671,137,117,41) action SetScreenVariable("device", "mouse")
+
 
                 if GamepadExists():
                     textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
@@ -989,10 +1001,6 @@ screen keyboard_help():
         text _("Прохождение диалогов без возможности делать выбор.")
 
     hbox:
-        label _("Стрелки")
-        text _("Навигация по интерфейсу.")
-
-    hbox:
         label _("Esc")
         text _("Вход в игровое меню.")
 
@@ -1005,24 +1013,12 @@ screen keyboard_help():
         text _("Включает режим пропуска.")
 
     hbox:
-        label _("Page Up")
-        text _("Откат назад по сюжету игры.")
-
-    hbox:
-        label _("Page Down")
-        text _("Откатывает предыдущее действие вперёд.")
-
-    hbox:
         label "H"
         text _("Скрывает интерфейс пользователя.")
 
     hbox:
         label "S"
         text _("Делает снимок экрана.")
-
-    hbox:
-        label "V"
-        text _("Включает поддерживаемый {a=https://www.renpy.org/l/voicing}синтезатор речи{/a}.")
 
     hbox:
         label "Shift+A"
